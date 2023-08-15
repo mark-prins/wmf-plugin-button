@@ -1,4 +1,5 @@
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const LimitChunkCountPlugin = require('webpack/lib/optimize/LimitChunkCountPlugin');
 const prod = process.env.NODE_ENV === 'production';
 const { dependencies } = require('./package.json');
 const path = require('path');
@@ -8,7 +9,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'module.js',
+    filename: 'plugin.js',
     library: 'module',
     libraryTarget: 'umd',
   },
@@ -27,11 +28,11 @@ module.exports = {
   devtool: prod ? undefined : 'source-map',
   plugins: [
     new ModuleFederationPlugin({
-      name: 'ShowTrackingButton',
-      filename: 'plugin.js',
+      name: 'Plugin_ShowTracking',
+      filename: 'module.js',
       remotes: {},
       exposes: {
-        './ShowTracking': './src/ShowTracking.tsx',
+        Button: './src/ShowTracking.tsx',
       },
       shared: {
         ...dependencies,
@@ -46,6 +47,9 @@ module.exports = {
           requiredVersion: dependencies['react-dom'],
         },
       },
+    }),
+    new LimitChunkCountPlugin({
+      maxChunks: 1,
     }),
   ],
 };

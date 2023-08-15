@@ -1,0 +1,12 @@
+{
+    "name": "Plugin_ShowTracking",
+    "version": "1.0.0",
+    "components": [{
+      "area": "Toolbar",
+      "type": "InboundShipment",
+      "module": "Button"
+    }],
+    "dependencies": {
+    "omSupplyVersion": "8.0.0"
+  }
+}

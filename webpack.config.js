@@ -1,5 +1,6 @@
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const LimitChunkCountPlugin = require('webpack/lib/optimize/LimitChunkCountPlugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const prod = process.env.NODE_ENV === 'production';
 const { dependencies } = require('./package.json');
 const path = require('path');
@@ -47,6 +48,9 @@ module.exports = {
           requiredVersion: dependencies['react-dom'],
         },
       },
+    }),
+    new CopyPlugin({
+      patterns: [{ from: './plugin.json', to: 'plugin.json' }],
     }),
     new LimitChunkCountPlugin({
       maxChunks: 1,
